@@ -1,2 +1,2 @@
-# 340ProcessTree
-Operating Systems (CSCI 340) Spring 2020 Project 1
+# ProcessTree-340
+  -Operating Systems Project 1 (CSCI340: Spring 2020)
