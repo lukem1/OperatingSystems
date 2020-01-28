@@ -40,18 +40,20 @@ int isNumber(char s[])
 
 int main(int argc, char *argv[])
 {
-	char *a = *(argv + 1);
-	printf("argv: %s\n", a);
+	//char *a = *(argv + 1);
+	//printf("argv: %s\n", a);
 	struct dirent *dir;
 	
 	printf("Number?: %d\n", isNumber(a));
 	
 	DIR *proc = opendir("/proc");
 	
-	/*while ((dir = readdir(proc)) != NULL)
+	while ((dir = readdir(proc)) != NULL)
 	{
+		if (isNumber(dir->d_name)) { printf("Process: "); }
+		else { printf("Other: "); }
 		printf("%s\n", dir->d_name);
-	}*/
+	}
 	
 	closedir(proc);
 	return 0;
