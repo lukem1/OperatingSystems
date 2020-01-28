@@ -7,10 +7,11 @@ struct process
 	int pid; // Process id
 	int ppid; // Parent process id
 	int vsize; // Size of virtual address space
-	char exe[];
+	char exe[]; // Name of the exe file
 	
 	struct process parent;
 };
+
 // Determines if a string is a number
 // Built to identify processes in the proc dir
 int isNumber(char s[])
