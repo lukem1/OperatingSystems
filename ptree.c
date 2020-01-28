@@ -42,10 +42,9 @@ int main(int argc, char *argv[])
 {
 	//char *a = *(argv + 1);
 	//printf("argv: %s\n", a);
+	//printf("Number?: %d\n", isNumber(a));
+	
 	struct dirent *dir;
-	
-	printf("Number?: %d\n", isNumber(a));
-	
 	DIR *proc = opendir("/proc");
 	
 	while ((dir = readdir(proc)) != NULL)
