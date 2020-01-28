@@ -7,9 +7,10 @@ struct process
 	int pid; // Process id
 	int ppid; // Parent process id
 	int vsize; // Size of virtual address space
-	char exe[]; // Name of the exe file
+	char **exe; // Pointer to name of exe TODO: may be incorrect type
 	
-	struct process parent;
+	struct process *parent; // Pointer to parent
+	struct process *children[]; // Array of pointers to children
 };
 
 // Determines if a string is a number
