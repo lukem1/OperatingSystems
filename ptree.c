@@ -52,6 +52,9 @@ int main(int argc, char *argv[])
 		if (isNumber(dir->d_name)) { printf("Process: "); }
 		else { printf("Other: "); }
 		printf("%s\n", dir->d_name);
+		
+		//FILE *fopen("/proc/"+dir->d_name+"/stat", 'r');
+		
 	}
 	
 	closedir(proc);
