@@ -7,7 +7,7 @@ struct process
 	int pid;
 	int ppid;
 	unsigned long vsize;
-	char **pname;
+	char pname[32];
 };
 
 // Prints a list of proccess structs
@@ -16,6 +16,21 @@ void printList(struct process list[], int size)
 	for (int i = 0; i < size; i++)
 	{
 		printf("pid: %d, ppid: %d, name: %s, memory: %lu (kb)\n", list[i].pid, list[i].ppid, list[i].pname, list[i].vsize/1000);
+	}
+}
+
+// Recursivley prints the processes as a tree
+void printTree(struct process list[], int size, int depth, int ppid)
+{
+	for (int i = 0; i < size; i++)
+	{
+		if (list[i].ppid == ppid)
+		{
+			for (int j = 0; j < depth; j++)
+				printf("  ");
+			printf("(%d) %s, %d kb\n", list[i].pid, list[i].pname, list[i].vsize/1000);
+			printTree(list, size, depth+1, list[i].pid); 
+		}
 	}
 }
 
@@ -77,17 +92,20 @@ int main(int argc, char *argv[])
 			sprintf(path, "/proc/%s/stat", dir->d_name);
 			FILE *stream = fopen(path, "r");
 			fscanf(stream, "%d %s %*s %d %*d %*d %*d %*d %*u %*u %*u %*u %*u %*u %*u %*d %*d %*d %*d %*d %*d %*u %lu", &pid, pname, &ppid, &vsize);
-			printf("pid: %d, ppid: %d, name: %s, memory: %lu (kb)\n", pid, ppid, pname, vsize/1000);
+			//printf("pid: %d, ppid: %d, name: %s, memory: %lu (kb)\n", pid, ppid, pname, vsize/1000);
 			procList[c].pid = pid;
 			procList[c].ppid = ppid;
-			procList[c].pname = pname;
+			strcpy(procList[c].pname, pname);
+			//procList[c].pname = &pname;
 			procList[c].vsize = vsize;
 			c += 1;
 		}
 	}
 	printf("Head of process list:\n");
 	printf("pid: %d, ppid: %d, name: %s, memory: %lu (kb)\n", procList[0].pid, procList[0].ppid, procList[0].pname, procList[0].vsize/1000);
-	printList(procList, procCount);
 	closedir(proc);
+	
+	printTree(procList, procCount, 0, 0);
+	
 	return 0;
 }
