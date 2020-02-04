@@ -2,7 +2,7 @@
 #include <dirent.h>
 
 // Structure to keep track of processes and their relationships
-struct process
+struct process_old
 {
 	int pid; // Process id
 	int ppid; // Parent process id
@@ -12,6 +12,17 @@ struct process
 	struct process *parent; // Pointer to parent
 	struct process *children[]; // Array of pointers to children
 };
+
+struct process
+{
+	int pid;
+	int ppid;
+	unsigned long vsize;
+	char **name;
+	
+	struct process *next;
+	struct process *prev;
+}
 
 // Determines if a string is a number
 // Built to identify processes in the proc dir
@@ -40,6 +51,7 @@ int isNumber(char s[])
 
 int main(int argc, char *argv[])
 {
+	// TODO kb not bytes
 	//char *a = *(argv + 1);
 	//printf("argv: %s\n", a);
 	//printf("Number?: %d\n", isNumber(a));
@@ -49,12 +61,20 @@ int main(int argc, char *argv[])
 	
 	while ((dir = readdir(proc)) != NULL)
 	{
-		if (isNumber(dir->d_name)) { printf("Process: "); }
-		else { printf("Other: "); }
-		printf("%s\n", dir->d_name);
-		
-		//FILE *fopen("/proc/"+dir->d_name+"/stat", 'r');
-		
+		if (isNumber(dir->d_name)) { 
+			printf("Process: "); 
+			printf("%s\n", dir->d_name);
+			int pid;
+			char *name[32];
+			int ppid;
+			unsigned long vsize;
+			char path[267];
+			sprintf(path, "/proc/%s/stat", dir->d_name);
+			FILE *stream = fopen(path, "r");
+			fscanf(stream, "%d %s %*s %d %*d %*d %*d %*d %*u %*u %*u %*u %*u %*u %*u %*d %*d %*d %*d %*d %*d %*u %lu", &pid, name, &ppid, &vsize);
+			//fscanf(stream, "%d %s %*s %d ", &pid, name, &ppid);
+			printf("pid: %d, ppid: %d, name: %s, memory: %lu (kb)\n", pid, ppid, name, vsize/1000);
+		}
 	}
 	
 	closedir(proc);
