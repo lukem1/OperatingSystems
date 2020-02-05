@@ -7,6 +7,12 @@
 // 4 February 2020
 //
 
+// THE ABOUT: 
+
+// Program below reads the /proc file directory on a linux system 
+// and similar to the bash command pstree shows the parent -> child 
+// hierarchy in a some what formatted way.
+
 #include <stdio.h>
 #include <dirent.h>
 #include <string.h>
@@ -105,6 +111,7 @@ int main(int argc, char *argv[])
 	closedir(proc);
 	
 	// Call recursive function to print process tree
+	// params: 0 for depth and PID 0 for root process
 	printTree(procList, procCount, 0, 0);
 	
 	return 0;
