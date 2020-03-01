@@ -11,23 +11,24 @@ import random
 import sys
 from components import *
 
-  # TODO: Take seed from command line param
-
-
 def main():
     # Process parameters
     # print("Usage: python3 main.py <memorysize> <pagesize> <jobs> <minrun> <maxrun> <minmem> <maxmem> <seed>")
 
     print("argv:", sys.argv)
 
-    memorysize = int(sys.argv[1])
-    pagesize = int(sys.argv[2])
-    numberOfJobs = int(sys.argv[3])
-    minrun = int(sys.argv[4])
-    maxrun = int(sys.argv[5])
-    minmem = int(sys.argv[6])
-    maxmem = int(sys.argv[7])
-    seed = int(sys.argv[8]) 
+    try:
+        memorysize = int(sys.argv[1])
+        pagesize = int(sys.argv[2])
+        numberOfJobs = int(sys.argv[3])
+        minrun = int(sys.argv[4])
+        maxrun = int(sys.argv[5])
+        minmem = int(sys.argv[6])
+        maxmem = int(sys.argv[7])
+        seed = int(sys.argv[8])
+    except:
+        print("Usage: python3 main.py <memorysize> <pagesize> <jobs> <minrun> <maxrun> <minmem> <maxmem> <seed>")
+        exit(1)
 
     random.seed(seed)
 
@@ -45,12 +46,10 @@ def main():
 
     for job in jobs:
         job.selfPrint()
-        
-
 
     # Generate Page Table
-    
 
+    table = PageTable(pagesize, memorysize)
 
 
 

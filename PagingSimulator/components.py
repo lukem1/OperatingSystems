@@ -1,4 +1,3 @@
-#
 # components.py
 # OperatingSystems
 #
@@ -6,6 +5,22 @@
 # Matt Walter
 # 28 February 2020
 #
+
+# Page
+
+class PageTable:
+
+    def __init__(self, pageSize, memSize):
+        self.size = memSize // pageSize
+        self.pageSize = pageSize
+        self.memSize = memSize
+        self.available = memSize
+        self.table = []
+
+        for i in range(0, self.size):
+            self.table.append('.')
+
+        print(self.table)
 
 # Process
 
@@ -48,6 +63,7 @@ class RoundRobin:
         self.sliceSize = sliceSize  # Size of time slice
         self.procs = []  # List of scheduled processes
 
+    # TODO: Don't overallocate pages
     #def schedule(self, job):
 
     #def deschedule(self, jobindex):
