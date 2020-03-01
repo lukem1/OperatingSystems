@@ -28,6 +28,12 @@ class Process:
             self.end = systime + 1
 
         return self.time
+        
+    def selfPrint(self):
+        print("Pid: ", self.pid)
+        print("Size: ", self.size)
+        print("runTime: ", self.time)
+
 
 
 
@@ -42,11 +48,11 @@ class RoundRobin:
         self.sliceSize = sliceSize  # Size of time slice
         self.procs = []  # List of scheduled processes
 
-    def schedule(self, job):
+    #def schedule(self, job):
 
-    def deschedule(self, jobindex):
+    #def deschedule(self, jobindex):
 
-    def update(self):
+    """ def update(self):
         self.counter += 1
         remaining = self.procs[self.current].run(self.time)
         if remaining == 0:
@@ -54,4 +60,4 @@ class RoundRobin:
 
         if self.counter == self.sliceSize:
             self.counter = 0
-            self.current = (self.current + 1) % len(self.procs)
+            self.current = (self.current + 1) % len(self.procs) """
