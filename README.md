@@ -1,4 +1,4 @@
-# Operating Systems Project
+# Operating Systems Projects
 ### Operating Systems Projecs (CSCI340: Spring 2020)
 
 ## ProcessTree
