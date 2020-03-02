@@ -11,11 +11,9 @@ import random
 import sys
 from components import *
 
+
 def main():
     # Process parameters
-    # print("Usage: python3 main.py <memorysize> <pagesize> <jobs> <minrun> <maxrun> <minmem> <maxmem> <seed>")
-
-    print("argv:", sys.argv)
 
     try:
         memorysize = int(sys.argv[1])

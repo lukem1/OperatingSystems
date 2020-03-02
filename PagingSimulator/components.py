@@ -6,7 +6,6 @@
 # 28 February 2020
 #
 
-# Page
 
 class PageTable:
 
@@ -22,7 +21,6 @@ class PageTable:
 
         print(self.table)
 
-# Process
 
 class Process:
 
@@ -49,10 +47,6 @@ class Process:
         print("Size: ", self.size)
         print("runTime: ", self.time)
 
-
-
-
-# Scheduler
 
 class RoundRobin:
 
