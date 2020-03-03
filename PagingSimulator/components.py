@@ -8,13 +8,14 @@
 
 import math
 
+
 class PageTable:
 
     def __init__(self, pageSize, memSize):
         self.size = memSize // pageSize
         self.pageSize = pageSize
         self.memSize = memSize
-        self.available = memSize
+        self.available = self.size
         self.table = []
 
         for i in range(0, self.size):
@@ -23,7 +24,7 @@ class PageTable:
         print(self.table)
 
     def allocate(self, pages, job):
-        self.available -= job.size
+        self.available -= pages
         for i in range(0, len(self.table)):
             if self.table[i] == '.':
                 self.table[i] = job.pid
@@ -35,8 +36,7 @@ class PageTable:
         for i in range(0, len(self.table)):
             if self.table[i] == job.pid:
                 self.table[i] = '.'
-
-        self.available += job.size
+                self.available += 1
 
     def toString(self):
         return self.table
@@ -63,10 +63,8 @@ class Process:
 
         return self.time
         
-    def selfPrint(self):
-        print("Pid: ", self.pid)
-        print("Size: ", self.size)
-        print("runTime: ", self.time)
+    def printer(self):
+        print("pid: %d, size: %d, remaining time: %d" % (self.pid, self.size, self.time))
 
 
 class RoundRobin:
@@ -80,11 +78,11 @@ class RoundRobin:
         self.current = 0  # Current process (index of jobs list)
         self.sliceSize = sliceSize  # Size of time slice
 
-    # TODO: Don't overallocate pages
     def schedule(self, job):
-        if self.table.available >= job.size: # TODO Fix
+        requiredPages = int(math.ceil(job.size / self.table.pageSize))
+        if self.table.available >= requiredPages:
             self.jobs.append(job)
-            requiredPages = int(math.ceil(job.size / self.table.pageSize))
+
             self.table.allocate(requiredPages, job)
         else:
             self.queue.append(job)
@@ -106,24 +104,23 @@ class RoundRobin:
         if remaining == 0:
             self.deschedule(self.jobs[self.current])
 
-        if len(self.jobs) != 0:
-            return True
+        if len(self.jobs) == 0:
+            return False
 
         if self.counter == self.sliceSize:
             self.counter = 0
             self.current = (self.current + 1) % len(self.jobs)
 
-        
-        return False
+        return True
 
-    def procsPrint(self):
+    def printer(self):
         if len(self.jobs) != 0:
             print("Current job: ", self.jobs[self.current].pid)
         print("---queue---")
         for j in self.queue:
-            j.selfPrint()
+            j.printer()
         print("---jobs---")
         for j in self.jobs:
-            j.selfPrint()
+            j.printer()
 
         print(self.table.toString())

@@ -7,9 +7,9 @@
 # 28 February 2020
 #
 
+from components import *
 import random
 import sys
-from components import *
 
 
 def main():
@@ -56,16 +56,16 @@ def main():
         j.arrival = 0
         scheduler.schedule(j)
 
-    scheduler.procsPrint()
+    scheduler.printer()
     
     # Run to Completion
     
     while scheduler.update():
-        scheduler.procsPrint()
+        scheduler.printer()
 
     # Print Summary
     print("----------Summary----------")
-    scheduler.procsPrint()
+    scheduler.printer()
 
 
 if __name__ == "__main__":
