@@ -45,25 +45,27 @@ def main():
 
         jobs.append(Process(i, mem, time))
 
-
-    for job in jobs:
-        job.selfPrint()
-
     # Initialize Page Table
 
     table = PageTable(pagesize, memorysize)
 
-    # Initialize Scheduler
+    # Initialize Scheduler and schedule processes
 
-    scheduler = RoundRobin(1, memorysize)
+    scheduler = RoundRobin(1, table)
+    for j in jobs:
+        j.arrival = 0
+        scheduler.schedule(j)
 
-    # Schedule Processes
-
-    #for j in jobs: scheduler.
-
+    scheduler.procsPrint()
+    
     # Run to Completion
+    
+    while scheduler.update():
+        scheduler.procsPrint()
 
     # Print Summary
+    print("----------Summary----------")
+    scheduler.procsPrint()
 
 
 if __name__ == "__main__":
