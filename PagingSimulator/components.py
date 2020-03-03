@@ -50,15 +50,17 @@ class Process:
 
 class RoundRobin:
 
-    def __init__(self, sliceSize, memorySize):
+    def __init__(self, sliceSize, memorySize, pagetable):
+        self.table = pagetable  # Page table
+        self.queue = []  # Jobs waiting to be scheduled
+        self.jobs = []  # Currently scheduled jobs
         self.counter = 0  # Counter to cycle time slices
         self.time = 0  # Time since start of the simulated system
-        self.current = -1  # Current process (index of proc list)
+        self.current = -1  # Current process (index of jobs list)
         self.sliceSize = sliceSize  # Size of time slice
-        self.procs = []  # List of scheduled processes
 
     # TODO: Don't overallocate pages
-    #def schedule(self, job):
+    #ef schedule(self, job):
 
     #def deschedule(self, jobindex):
 

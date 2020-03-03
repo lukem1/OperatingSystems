@@ -24,8 +24,12 @@ def main():
         minmem = int(sys.argv[6])
         maxmem = int(sys.argv[7])
         seed = int(sys.argv[8])
-    except:
+    except IndexError:
         print("Usage: python3 main.py <memorysize> <pagesize> <jobs> <minrun> <maxrun> <minmem> <maxmem> <seed>")
+        exit(1)
+
+    if memorysize % pagesize != 0:
+        print("! Memory size must be an even multiple of the page size")
         exit(1)
 
     random.seed(seed)
@@ -45,15 +49,19 @@ def main():
     for job in jobs:
         job.selfPrint()
 
-    # Generate Page Table
+    # Initialize Page Table
 
     table = PageTable(pagesize, memorysize)
 
-
-
     # Initialize Scheduler
 
+    scheduler = RoundRobin(1, memorysize)
+
     # Schedule Processes
+
+    #for j in jobs: scheduler.
+
+    # Run to Completion
 
     # Print Summary
 
