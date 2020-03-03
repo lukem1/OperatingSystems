@@ -9,6 +9,7 @@
 import math
 
 
+# Class to represent a page table
 class PageTable:
 
     def __init__(self, pageSize, memSize):
@@ -21,6 +22,7 @@ class PageTable:
         for i in range(0, self.size):
             self.table.append('.')
 
+    # Allocate pages to a job
     def allocate(self, pages, job):
         self.available -= pages
         for i in range(0, len(self.table)):
@@ -30,12 +32,14 @@ class PageTable:
             if pages == 0:
                 return
 
+    # Free pages from a job
     def deallocate(self, job):
         for i in range(0, len(self.table)):
             if self.table[i] == job.pid:
                 self.table[i] = '.'
                 self.available += 1
 
+    # Print information about the scheduler
     def printer(self):
         for i in range(1, self.size+1):
             print(self.table[i-1], end='')
@@ -45,6 +49,7 @@ class PageTable:
                 print()
 
 
+# Class to represent a process
 class Process:
 
     def __init__(self, pid, size, runtime):
@@ -55,6 +60,7 @@ class Process:
         self.start = -1
         self.end = -1
 
+    # Simulate the job running for a second
     def run(self, simtime):
         if self.start == -1:
             self.start = simtime
@@ -65,11 +71,13 @@ class Process:
             self.end = simtime + 1
 
         return self.time
-        
+
+    # Print information about the process
     def printer(self):
         print("pid: %d, size: %d, remaining time: %d" % (self.pid, self.size, self.time))
 
 
+# Class to represent a round robin scheduler
 class RoundRobin:
 
     def __init__(self, sliceSize, pagetable):
@@ -81,6 +89,7 @@ class RoundRobin:
         self.current = 0  # Current process (index of jobs list)
         self.sliceSize = sliceSize  # Size of time slice
 
+    # Attempts to schedule a job, if not enough memory places it into the queue
     def schedule(self, job):
         requiredPages = int(math.ceil(job.size / self.table.pageSize))
         if self.table.available >= requiredPages:
@@ -90,6 +99,7 @@ class RoundRobin:
         else:
             self.queue.append(job)
 
+    # Deschedule a job
     def deschedule(self, job):
         self.jobs.remove(job)
         self.table.deallocate(job)
@@ -101,6 +111,7 @@ class RoundRobin:
             for j in q:
                 self.schedule(j)
 
+    # Simulate a second of the scheduler
     def update(self):
         self.counter += 1
         remaining = self.jobs[self.current].run(self.time)
@@ -117,6 +128,7 @@ class RoundRobin:
 
         return True
 
+    # Print summary information
     def printer(self):
         print("-----Time %d-----" % self.time)
         if len(self.jobs) != 0:
