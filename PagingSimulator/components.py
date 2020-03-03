@@ -68,6 +68,8 @@ class Process:
         self.time -= 1
 
         if self.time == 0:
+            print("    Job " , self.pid , " Completed.")
+            print()
             self.end = simtime + 1
 
         return self.time
@@ -132,7 +134,7 @@ class RoundRobin:
     def printer(self):
         print("-----Time %d-----" % self.time)
         if len(self.jobs) != 0:
-            print("Current job: ", self.jobs[self.current].pid)
+            print("Job Running: ", self.jobs[self.current].pid)
         print("---queue---")
         for j in self.queue:
             j.printer()
@@ -141,3 +143,4 @@ class RoundRobin:
             j.printer()
         print("---page table---")
         self.table.printer()
+        print()

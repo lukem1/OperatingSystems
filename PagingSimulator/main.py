@@ -56,12 +56,12 @@ def main():
         j.arrival = 0
         scheduler.schedule(j)
 
-    print("-----Initial Snapshot-----")
+    print("Beginning Simulation...")
+    print()
     scheduler.printer()
-    print("--------------------------")
     
     # Run to Completion
-    print("Beginning Simulation...")
+    
     while scheduler.update():
         scheduler.printer()
 
