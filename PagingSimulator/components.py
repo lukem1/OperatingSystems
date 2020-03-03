@@ -21,8 +21,6 @@ class PageTable:
         for i in range(0, self.size):
             self.table.append('.')
 
-        print(self.table)
-
     def allocate(self, pages, job):
         self.available -= pages
         for i in range(0, len(self.table)):
@@ -38,8 +36,13 @@ class PageTable:
                 self.table[i] = '.'
                 self.available += 1
 
-    def toString(self):
-        return self.table
+    def printer(self):
+        for i in range(1, self.size+1):
+            print(self.table[i-1], end='')
+            if i % 4 == 0:
+                print(' ', end='')
+            if i % 16 == 0:
+                print()
 
 
 class Process:
@@ -104,6 +107,7 @@ class RoundRobin:
         if remaining == 0:
             self.deschedule(self.jobs[self.current])
 
+        self.time += 1
         if len(self.jobs) == 0:
             return False
 
@@ -114,6 +118,7 @@ class RoundRobin:
         return True
 
     def printer(self):
+        print("-----Time %d-----" % self.time)
         if len(self.jobs) != 0:
             print("Current job: ", self.jobs[self.current].pid)
         print("---queue---")
@@ -122,5 +127,5 @@ class RoundRobin:
         print("---jobs---")
         for j in self.jobs:
             j.printer()
-
-        print(self.table.toString())
+        print("---page table---")
+        self.table.printer()

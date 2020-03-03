@@ -56,16 +56,22 @@ def main():
         j.arrival = 0
         scheduler.schedule(j)
 
+    print("-----Initial Snapshot-----")
     scheduler.printer()
+    print("--------------------------")
     
     # Run to Completion
-    
+    print("Beginning Simulation...")
     while scheduler.update():
         scheduler.printer()
 
     # Print Summary
     print("----------Summary----------")
+    print("Final simulator state:")
     scheduler.printer()
+    print("Job statistics:")
+    for job in jobs:
+        print("[Job %d] Arrival Time: %d, Start Time %d, End Time %d" % (job.pid, job.arrival, job.start, job.end))
 
 
 if __name__ == "__main__":
