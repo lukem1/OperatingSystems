@@ -34,6 +34,17 @@ def main():
 
     random.seed(seed)
 
+    # Print Parameters
+    print("Simulator Parameters:")
+    print("Memory Size: ", memorysize)
+    print("Page Size: ", pagesize)
+    print("Number of Jobs: ", numberOfJobs)
+    print("Minimum runtime: ", minrun)
+    print("Maximum runtime: ", maxrun)
+    print("Minimum memory: ", minmem)
+    print("Maximum runtime: ", maxmem)
+    print("Random Seed: ", seed)
+
     # Generate Processes
         ## make a list of all jobs 
     
