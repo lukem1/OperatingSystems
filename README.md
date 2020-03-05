@@ -5,3 +5,4 @@
 Command line tool that reads the linux /proc filesystem and displays the processes as a tree.
 
 ## PagingSimulator
+Simulator that implements a Round Robin shceduler and memory management via paging.
