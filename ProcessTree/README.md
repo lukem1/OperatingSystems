@@ -4,4 +4,6 @@ Command line tool that reads the linux /proc filesystem and displays process inf
 
 ## Usage
 
-`./ptree`
+Using the `make` command will compile the program
+
+After being compiled run the program with `./ptree` 
