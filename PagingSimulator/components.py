@@ -39,7 +39,7 @@ class PageTable:
                 self.table[i] = '.'
                 self.available += 1
 
-    # Print information about the scheduler
+    # Print the page table
     def printer(self):
         for i in range(1, self.size+1):
             print(self.table[i-1], end='')
@@ -106,6 +106,7 @@ class RoundRobin:
         self.jobs.remove(job)
         self.table.deallocate(job)
 
+        # Attempt to schedule any queued jobs now that additional memory has been freed
         if len(self.queue) != 0:
             q = self.queue
             self.queue = []
