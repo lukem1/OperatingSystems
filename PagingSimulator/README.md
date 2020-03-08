@@ -1,4 +1,5 @@
 # PagingSimulator
+Simulator that implements a Round Robin shceduler and memory management via paging
 
 ## Usage
 `python3 main.py <memorysize> <pagesize> <jobs> <minrun> <maxrun> <minmem> <maxmem> <seed>`
