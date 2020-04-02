@@ -6,6 +6,8 @@
 //
 // 2 April 2020
 //
+// counts the number of words in a given text file
+// `go run msqueue.go ( Number of Go Routines) < random.txt `
 
 package main
 
@@ -14,22 +16,23 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 	"sync"
 )
 
-var word_count int = 0
+var wordCount int = 0
 var lock sync.Mutex
 
 func task(number int, c chan string, w *sync.WaitGroup) {
-	task_wc := 0
+	taskWc := 0
 	for line := range c {
 		fmt.Printf("Task %d: %s\n", number, line)
-		task_wc += 1 // TODO: Remove, do actual word count
+
+		taskWc += len(strings.Split(line, " ")) // TODO: Remove, do actual word count
 	}
-	
-	
+
 	lock.Lock()
-	word_count += task_wc
+	wordCount += taskWc
 	defer lock.Unlock()
 	defer w.Done()
 }
@@ -40,26 +43,26 @@ func main() {
 		os.Exit(0)
 	}
 	consumers, err := strconv.Atoi(os.Args[1])
-	
+
 	fmt.Printf("argc: %d argv: %s err: %d\n", len(os.Args), os.Args, err)
-	
+
 	c := make(chan string)
 	var w sync.WaitGroup
 	for i := 0; i < consumers; i++ {
 		w.Add(1)
 		go task(i, c, &w)
 	}
-	
+
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
 		//fmt.Println(scanner.Text())
 		c <- scanner.Text()
 	}
-	
+
 	close(c)
-	
+
 	w.Wait()
-	
-	fmt.Printf("Total Word Count: %d\n", word_count)
-	
+
+	fmt.Printf("Total Word Count: %d\n", wordCount)
+
 }
