@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"bufio"
 )
 
 func main() {
@@ -11,4 +12,8 @@ func main() {
 		os.Exit(0)
 	}
 	fmt.Printf("argc: %d argv: %s\n", len(os.Args), os.Args)
+	scanner := bufio.NewScanner(os.Stdin)
+	for scanner.Scan() {
+		fmt.Println(scanner.Text())
+	}
 }
