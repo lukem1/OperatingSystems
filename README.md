@@ -6,3 +6,6 @@ Command line tool that reads the linux /proc filesystem and displays the process
 
 ## PagingSimulator
 Simulator that implements a Round Robin shceduler and memory management via paging.
+
+## MultiServerQueue
+Single producer/multiple consumer queue implementation.
