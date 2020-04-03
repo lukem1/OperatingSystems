@@ -35,7 +35,6 @@ func task(number int, c chan string, w *sync.WaitGroup) {
 				taskWc += 1
 			}
 		}
-		//taskWc += len(strings.Split(line, " ")) // TODO: Remove, do actual word count
 	}
 
 	// Update the total word count
@@ -51,8 +50,6 @@ func main() {
 		os.Exit(0)
 	}
 	consumers, _ := strconv.Atoi(os.Args[1])
-
-	//fmt.Printf("argc: %d argv: %s err: %d\n", len(os.Args), os.Args, err)
 
 	// Initialize channel to pass data to tasks
 	c := make(chan string)
