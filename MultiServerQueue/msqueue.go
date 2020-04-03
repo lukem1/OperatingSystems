@@ -20,17 +20,25 @@ import (
 	"sync"
 )
 
-var wordCount int = 0
-var lock sync.Mutex
+var wordCount int = 0  // Total word count
+var lock sync.Mutex  // Mutex lock to restrict write access to wordCount
 
 func task(number int, c chan string, w *sync.WaitGroup) {
-	taskWc := 0
+	taskWc := 0  // Local word count
+	// While the channel is open process lines
 	for line := range c {
 		fmt.Printf("Task %d: %s\n", number, line)
-
-		taskWc += len(strings.Split(line, " ")) // TODO: Remove, do actual word count
+		// Count words
+		split := strings.Split(line, " ")
+		for _, w := range split {
+			if w != "" { // ignore empty strings
+				taskWc += 1
+			}
+		}
+		//taskWc += len(strings.Split(line, " ")) // TODO: Remove, do actual word count
 	}
 
+	// Update the total word count
 	lock.Lock()
 	wordCount += taskWc
 	defer lock.Unlock()
@@ -42,25 +50,32 @@ func main() {
 		fmt.Printf("Usage: ./msqueue <consumers>\n")
 		os.Exit(0)
 	}
-	consumers, err := strconv.Atoi(os.Args[1])
+	consumers, _ := strconv.Atoi(os.Args[1])
 
-	fmt.Printf("argc: %d argv: %s err: %d\n", len(os.Args), os.Args, err)
+	//fmt.Printf("argc: %d argv: %s err: %d\n", len(os.Args), os.Args, err)
 
+	// Initialize channel to pass data to tasks
 	c := make(chan string)
+	// Initialize waitgroup to signal main when all tasks terminate
 	var w sync.WaitGroup
+	// Create the specified number of tasks
 	for i := 0; i < consumers; i++ {
 		w.Add(1)
 		go task(i, c, &w)
 	}
 
+	// Initialize scanner to read from stdin
 	scanner := bufio.NewScanner(os.Stdin)
+	// Pass each line of the input to tasks via the channel
 	for scanner.Scan() {
 		//fmt.Println(scanner.Text())
 		c <- scanner.Text()
 	}
 
+	// Close the channel
 	close(c)
 
+	// Wait for tasks to terminate
 	w.Wait()
 
 	fmt.Printf("Total Word Count: %d\n", wordCount)
